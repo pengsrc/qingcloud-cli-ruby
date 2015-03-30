@@ -1,7 +1,14 @@
-require "qingcloud/cli/version"
+require 'qingcloud/cli/version'
 
-module Qingcloud
-  module Cli
-    # Your code goes here...
-  end
+module QingCloud
+    module Cli
+
+        class Application
+
+            def self.description
+                'Description'
+            end
+        end
+
+    end
 end

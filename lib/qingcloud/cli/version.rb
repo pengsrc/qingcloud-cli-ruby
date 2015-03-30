@@ -1,5 +1,5 @@
-module Qingcloud
-  module Cli
-    VERSION = "0.1.0"
-  end
+module QingCloud
+    module Cli
+        VERSION = '0.1.0'
+    end
 end
