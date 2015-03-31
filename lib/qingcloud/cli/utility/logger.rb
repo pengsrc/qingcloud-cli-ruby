@@ -14,4 +14,3 @@ module QingCloud
         end
     end
 end
-

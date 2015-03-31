@@ -6,7 +6,7 @@ require 'net/http'
 module QingCloud
     module Cli
 
-        class Launch
+        class Connector
 
             API_URL = 'https://api.qingcloud.com/iaas/?'
 
@@ -19,13 +19,20 @@ module QingCloud
 
                 self.access_key = access_key
                 self.secret_key = secret_key
-
-                @ready = false
             end
 
-            def ready?; @ready; end
+            def self.init(access_key, secret_key)
+                Connector.new access_key, secret_key
+            end
 
-            def build(action, params={})
+            def self.init_with_config_file
+                config_map = Utility.json_parser.decode(
+                    Utility.file_manager.read_config_file
+                )
+                Connector.new config_map['qy_access_key_id'], config_map['qy_secret_access_key']
+            end
+
+            def launch(action, params={})
                 unless action && action.length > 0; return false; end
 
                 params.update(
@@ -53,13 +60,7 @@ module QingCloud
 
                 request_url = "#{API_URL}#{request_body}&signature=#{signature}"
 
-                puts Net::HTTP.get URI(request_url)
-
-                @ready = true
-            end
-
-            def dispatch(action, params={})
-
+                Utility.json_parser.decode Net::HTTP.get(URI(request_url))
             end
 
         end
