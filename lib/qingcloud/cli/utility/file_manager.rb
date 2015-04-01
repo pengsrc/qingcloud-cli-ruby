@@ -30,7 +30,7 @@ module QingCloud
                 private
 
                 def read_file(file_path)
-                    File.open(file_path) {|file| return file.read } if File.exist? file_path
+                    File.open(file_path) { |file| return file.read } if File.exist? file_path
                 end
 
                 def write_file(file_path, content)

@@ -3,28 +3,33 @@ require 'spec_helper'
 module QingCloud
     module Cli
 
-        RSpec.describe Component::Zone do
+        RSpec.describe Component::Interface, focus: true do
 
             it 'can DescribeZones' do
 
                 c = Connector.init_with_config_file
-                z = Component::Zone.new c
-                z.describe_zones [], status=['active']
-                # puts z.response
-                expect(z.response['action'] == 'DescribeZonesResponse').to be true
+                i = Component::Interface.new c
+                i.describe_zones [], status=['active']
+                puts i.response
+                expect(i.response['action'] == 'DescribeZonesResponse').to be true
             end
-
-        end
-
-        RSpec.describe Component::Job do
 
             it 'can DescribeJobs' do
 
                 c = Connector.init_with_config_file
-                j = Component::Job.new c
-                j.describe_jobs [], [], nil, nil, nil, nil, 'pek2'
-                # puts j.response
-                expect(j.response['action'] == 'DescribeJobsResponse').to be true
+                i = Component::Interface.new c
+                i.describe_jobs 'pek2', [], [], nil, nil, nil, nil
+                puts i.response
+                expect(i.response['action'] == 'DescribeJobsResponse').to be true
+            end
+
+            it 'can DescribeInstances' do
+
+                c = Connector.init_with_config_file
+                i = Component::Interface.new c
+                i.describe_instances 'pek2', [], [], [], [], nil, nil, nil, nil
+                puts i.response
+                expect(i.response['action'] == 'DescribeInstancesResponse').to be true
             end
 
         end

@@ -53,7 +53,7 @@ module QingCloud
                     end
                 }.join('&')
 
-                signature =  Base64.encode64(
+                signature = Base64.encode64(
                     OpenSSL::HMAC.digest(
                         OpenSSL::Digest.new('sha256'),
                         self.secret_key,
