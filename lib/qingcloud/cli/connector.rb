@@ -14,8 +14,8 @@ module QingCloud
             attr_accessor :secret_key
 
             def initialize(access_key, secret_key)
-                unless access_key && access_key.length > 0; return nil; end
-                unless secret_key && secret_key.length > 0; return nil; end
+                raise Error::ParameterError, 'Load API Key' unless access_key && access_key.length > 0
+                raise Error::ParameterError, 'Load API Key' unless secret_key && secret_key.length > 0
 
                 self.access_key = access_key
                 self.secret_key = secret_key
@@ -26,14 +26,14 @@ module QingCloud
             end
 
             def self.init_with_config_file
-                config_map = Utility.json_parser.decode(
-                    Utility.file_manager.read_config_file
-                )
+                config_map = {}
+                content = Utility.file_manager.read_config_file
+                config_map = Utility.json_parser.decode content if content
                 Connector.new config_map['qy_access_key_id'], config_map['qy_secret_access_key']
             end
 
             def launch(action, params={})
-                unless action && action.length > 0; return false; end
+                raise Error::ParameterError, 'Check API Request' unless action && action.length > 0
 
                 params.update(
                     action: action,
@@ -60,7 +60,17 @@ module QingCloud
 
                 request_url = "#{API_URL}#{request_body}&signature=#{signature}"
 
-                Utility.json_parser.decode Net::HTTP.get(URI(request_url))
+                response = Net::HTTPResponse.new 1.1, 500, 'Error'
+
+                begin
+                    response = Net::HTTP.get_response URI(request_url)
+                rescue
+                    raise Error::NetworkError
+                end
+
+                raise Error::ServerError, response.code unless response.code == '200'
+
+                Utility.json_parser.decode response.body
             end
 
         end

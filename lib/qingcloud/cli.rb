@@ -1,7 +1,8 @@
 require 'qingcloud/cli/version'
 
-# Common Constant
+# Common
 require 'qingcloud/cli/contract'
+require 'qingcloud/cli/error'
 
 # Utility
 require 'qingcloud/cli/utility/logger'

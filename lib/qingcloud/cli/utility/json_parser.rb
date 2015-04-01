@@ -14,15 +14,25 @@ module QingCloud
             class JsonParser
 
                 def encode(object)
-                    JSON.generate object
+                    guarantee(Proc.new do; JSON.generate object; end)
                 end
 
                 def encode_prettily(object)
-                    JSON.pretty_generate object
+                    guarantee(Proc.new do; JSON.pretty_generate object; end)
                 end
 
                 def decode(string)
-                    JSON.parse string
+                    guarantee(Proc.new do; JSON.parse string; end)
+                end
+
+                private
+
+                def guarantee(proc)
+                    begin
+                        proc.call
+                    rescue JSON::ParserError
+                        raise Error::AnalyseError, 'Parse Json'
+                    end
                 end
 
             end
