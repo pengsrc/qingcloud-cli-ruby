@@ -12,6 +12,7 @@ require 'qingcloud/cli/utility/json_parser'
 # Component
 require 'qingcloud/cli/component/base'
 require 'qingcloud/cli/component/zone'
+require 'qingcloud/cli/component/job'
 
 require 'qingcloud/cli/connector'
 

@@ -3,39 +3,39 @@ module QingCloud
         module Error
 
             class CommonError < StandardError
-            end
-
-            class UnknownError < StandardError
-                def message
-                    'Encounter Unknown Error'
+                def initialize(message=nil)
+                    super "Encounter Error: #{message || 'Unknown'}."
                 end
             end
 
             class NetworkError < StandardError
                 def message
-                    'Encounter Network Error'
-                end
-            end
-
-            class ServerError < StandardError
-                def initialize(code)
-                    super "Server Response with \"#{code}\""
+                    'Network Error, please check your internet connection.'
                 end
             end
 
             class AnalyseError < StandardError
                 def initialize(something)
-                    super "Analyse Error when \"#{something}\""
+                    super "Analyse Error when \"#{something}\"."
                 end
             end
 
             class ParameterError < StandardError
                 def initialize(something)
-                    super "Parameter Error when \"#{something}\""
+                    super "Parameter Error when \"#{something}\"."
                 end
             end
 
-            class ApiError < StandardError
+            class ServerError < StandardError
+                def initialize(code)
+                    super "Server Response with Error Code \"#{code}\"."
+                end
+            end
+
+            class APIError < StandardError
+                def initialize(something)
+                    super "API Error: \"#{something}\"."
+                end
             end
         end
     end

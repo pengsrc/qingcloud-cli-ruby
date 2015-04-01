@@ -31,7 +31,7 @@ module QingCloud
             end
 
 
-            def launch(action, params={})
+            def fetch(action, params={})
                 raise Error::ParameterError, 'Check API Request' unless action && action.length > 0
 
                 params.update(

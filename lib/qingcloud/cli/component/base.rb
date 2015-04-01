@@ -25,9 +25,17 @@ module QingCloud
 
                 private
 
-                def send_request(action, params={})
-                    @connector.launch action, params
-                    
+                def fetch_response(action, params={})
+
+                    response_body = @connector.fetch action, params
+
+                    raise Error::APIError, 'No Response Data Received' unless response_body['ret_code']
+
+                    if response_body['ret_code'] != 0
+                        raise Error::APIError, response_body['message'] || ERROR_CODE_MAP[response_body['ret_code']]
+                    end
+
+                    response_body
                 end
 
             end
