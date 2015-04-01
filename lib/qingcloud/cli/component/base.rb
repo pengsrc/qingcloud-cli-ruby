@@ -18,6 +18,7 @@ module QingCloud
                     5300 => 'Server Updating',
                 }
 
+                attr_accessor :response
 
                 def initialize(connector)
                     @connector = connector
@@ -27,6 +28,10 @@ module QingCloud
 
                 def fetch_response(action, params={})
 
+                    params.map { |key, value|
+                        params.delete key unless value && value.length > 0
+                    }
+
                     response_body = @connector.fetch action, params
 
                     raise Error::APIError, 'No Response Data Received' unless response_body['ret_code']
@@ -35,9 +40,32 @@ module QingCloud
                         raise Error::APIError, response_body['message'] || ERROR_CODE_MAP[response_body['ret_code']]
                     end
 
-                    response_body
+                    self.response = response_body
                 end
 
+                def merge_maps(maps)
+                    final = {}
+                    maps.map { |map| final.merge! map }
+                    final
+                end
+
+                def build_fetch(action_name)
+                    "
+                    fetch_response(
+                        \"#{action_name}\",
+                        eval('merge_maps(method(__method__).parameters.map { |_, p| {p.to_sym => eval(p.to_s)} })')
+                    )
+                    "
+                end
+
+                def build_fetch_match
+                    "
+                    fetch_response(
+                        __method__.to_s.split('_').map{ |w| w.capitalize! }.join,
+                        eval('merge_maps(method(__method__).parameters.map { |_, p| {p.to_sym => eval(p.to_s)} })')
+                    )
+                    "
+                end
             end
 
         end

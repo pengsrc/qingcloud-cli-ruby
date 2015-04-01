@@ -10,19 +10,21 @@ module QingCloud
                 c = Connector.init_with_config_file
                 z = Component::Zone.new c
                 z.describe_zones [], status=['active']
-                puts z.zone_set
+                # puts z.response
+                expect(z.response['action'] == 'DescribeZonesResponse').to be true
             end
 
         end
 
         RSpec.describe Component::Job do
 
-            it 'can DescribeZones', focus: true do
+            it 'can DescribeJobs' do
 
                 c = Connector.init_with_config_file
                 j = Component::Job.new c
                 j.describe_jobs [], [], nil, nil, nil, nil, 'pek2'
-                puts j.job_set
+                # puts j.response
+                expect(j.response['action'] == 'DescribeJobsResponse').to be true
             end
 
         end
