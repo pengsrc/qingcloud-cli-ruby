@@ -34,6 +34,9 @@ module QingCloud
                     super "Parameter Error when \"#{something}\""
                 end
             end
+
+            class ApiError < StandardError
+            end
         end
     end
 end

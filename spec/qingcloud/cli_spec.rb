@@ -1,11 +1,19 @@
 require 'spec_helper'
 
-RSpec.describe QingCloud::Cli do
+module QingCloud
+    module Cli
 
-    it 'has a version number' do
-        puts "Version: #{QingCloud::Cli::VERSION}"
+        RSpec.describe QingCloud::Cli do
 
-        expect(QingCloud::Cli::VERSION).not_to be nil
+            it 'has a version number' do
+                puts "Version: #{VERSION}"
+
+                expect(VERSION).not_to be nil
+            end
+
+        end
+
     end
-
 end
+
+

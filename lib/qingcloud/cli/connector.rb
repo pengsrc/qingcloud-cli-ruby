@@ -8,8 +8,6 @@ module QingCloud
 
         class Connector
 
-            API_URL = 'https://api.qingcloud.com/iaas/?'
-
             attr_accessor :access_key
             attr_accessor :secret_key
 
@@ -32,6 +30,7 @@ module QingCloud
                 Connector.new config_map['qy_access_key_id'], config_map['qy_secret_access_key']
             end
 
+
             def launch(action, params={})
                 raise Error::ParameterError, 'Check API Request' unless action && action.length > 0
 
@@ -41,24 +40,31 @@ module QingCloud
                     access_key_id: access_key,
                     version: 1,
                     signature_method: 'HmacSHA256',
-                    signature_version: 1
+                    signature_version: 1,
                 )
 
                 request_body = params.sort.map { |key, value|
-                    "#{CGI.escape key.to_s}=#{CGI.escape value.to_s}"
-                }.join '&'
+                    if value.is_a? Array
+                        value.map { |v|
+                            "#{CGI.escape key.to_s}.#{value.index(v)+1}=#{CGI.escape v.to_s}"
+                        }.join('&')
+                    else
+                        "#{CGI.escape key.to_s}=#{CGI.escape value.to_s}"
+                    end
+                }.join('&')
 
-                signature = CGI.escape(
-                    Base64.encode64(
-                        OpenSSL::HMAC.digest(
-                            OpenSSL::Digest.new('sha256'),
-                            self.secret_key,
-                            "GET\n/iaas/\n#{request_body}"
-                        ).strip
-                    ).strip.gsub(' ', '+')
-                )
+                signature =  Base64.encode64(
+                    OpenSSL::HMAC.digest(
+                        OpenSSL::Digest.new('sha256'),
+                        self.secret_key,
+                        "GET\n/iaas/\n#{request_body}"
+                    )
+                ).strip
 
-                request_url = "#{API_URL}#{request_body}&signature=#{signature}"
+                request_url = "#{Contract::API_URL}#{request_body}&signature=#{CGI.escape signature}"
+
+                # Log
+                Utility.logger.info request_url
 
                 response = Net::HTTPResponse.new 1.1, 500, 'Error'
 
@@ -69,6 +75,9 @@ module QingCloud
                 end
 
                 raise Error::ServerError, response.code unless response.code == '200'
+
+                # Log
+                Utility.logger.info response.body
 
                 Utility.json_parser.decode response.body
             end
