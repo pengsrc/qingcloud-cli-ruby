@@ -36,11 +36,11 @@ module QingCloud
 
                     raise Error::APIError, 'No Response Data Received' unless response_body['ret_code']
 
+                    self.response = response_body
+
                     if response_body['ret_code'] != 0
                         raise Error::APIError, response_body['message'] || ERROR_CODE_MAP[response_body['ret_code']]
                     end
-
-                    self.response = response_body
                 end
 
                 def merge_maps(maps)

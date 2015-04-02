@@ -3,7 +3,13 @@ require 'spec_helper'
 module QingCloud
     module Cli
 
-        RSpec.describe Component::Interface, focus: true do
+        RSpec.describe Component::Interface  do
+
+            it 'check_api_key', focus: true do
+                c = Connector.init_with_config_file
+                i = Component::Interface.new c
+                puts i.check_api_keys
+            end
 
             it 'can DescribeZones' do
 

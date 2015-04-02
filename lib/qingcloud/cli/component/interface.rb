@@ -4,6 +4,15 @@ module QingCloud
 
             class Interface < Base
 
+                def check_api_keys
+                    begin
+                        eval(build_fetch_match)
+                    rescue Error::APIError
+                        false
+                        self.response['ret_code'] == 1200 ? false : true
+                    end
+                end
+
                 def describe_zones(
                     zones = [],
                     status = []) eval(build_fetch_match)
