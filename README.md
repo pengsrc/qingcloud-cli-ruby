@@ -2,44 +2,15 @@
 
 Command line tool for QingCloud
 
-## Install from Source Code
+## Usage
 
-Get Code from Github:
+TODO
 
-	$ git clone git@github.com:prettyxw/qingcloud-cli-ruby.git
+## Install
 
-Go Inside:
-
-    $ cd qingcloud-cli-ruby
-    
-Build and Install with Gem:
-
-    $ gem build qingcloud-cli.gemspec
-    $ gem install qingcloud-cli*.gem
-
-or Build and Install with Bundle:
-
-    $ bundle exec rake install
-
-## Install using Gemfile
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'qingcloud-cli', git: 'https://github.com/prettyxw/qingcloud-cli-ruby'
-```
-
-And then execute:
-
-    $ bundle
+TODO
 
 ## Uninstall
-
-Using gem to remove this package:
-
-    $ gem uninstall qingcloud-cli
-
-## Usage
 
 TODO
 
