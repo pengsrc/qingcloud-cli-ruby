@@ -16,7 +16,7 @@ module QingCloud
             private
 
             def parse_sub_command
-                echo
+                puts @arguments.shift
             end
 
             def parse_options

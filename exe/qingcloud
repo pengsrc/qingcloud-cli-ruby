@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'qingcloud/cli'
+require 'qingcloud/cli.rb'
 
 QingCloud::Cli::Application.new ARGV
