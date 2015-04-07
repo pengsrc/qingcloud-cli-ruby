@@ -8,6 +8,8 @@ module QingCloud
 
             def initialize(arguments)
 
+                Control.prepare_config_file
+
                 command = arguments.shift
 
                 Control.check_command(command)

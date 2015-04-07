@@ -3,6 +3,12 @@ module QingCloud
 
         class Control
 
+            def self.prepare_config_file
+                unless File.exist? SDK::Contract::CONFIG_FILE_PATH
+                    SDK::Utility.file_manager.create_new_config_file
+                end
+            end
+
             def self.check_command(command)
                 unless Service::SERVICE_MAP[command]
                     puts 'Usage: qingcloud <action> [options]'
@@ -71,8 +77,6 @@ module QingCloud
                     retry
                 end
 
-                p options
-
                 Service::SERVICE_MAP[command][:options].each { |option|
 
                     if option[:required] && !options[option[:full]]
@@ -113,16 +117,16 @@ module QingCloud
                 begin
 
                     response = eval("
-                                        connector = QingCloud::SDK::Client::Connector.init_with_config_file
-                                        service = QingCloud::SDK::Client::Service.new connector
+                                        connector = SDK::Client::Connector.init_with_config_file
+                                        service = SDK::Client::Service.new connector
 
                                         service.#{command.gsub('-', '_')}(#{options_code})
                                         service.response
                                     ")
 
-                    puts QingCloud::SDK::Utility.json_parser.encode_prettily response
+                    puts SDK::Utility.json_parser.encode_prettily response
 
-                rescue QingCloud::SDK::Error::SDKError => e
+                rescue SDK::Error::SDKError => e
                     puts e.message
                 end
 
