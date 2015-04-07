@@ -7,20 +7,11 @@ module QingCloud
             attr_accessor :options
 
             def initialize(arguments)
-                @arguments = arguments
 
-                parse_sub_command
-                parse_options
-            end
+                command = arguments.shift
 
-            private
-
-            def parse_sub_command
-                puts @arguments.shift
-            end
-
-            def parse_options
-
+                Control.check_command(command)
+                Control.perform_service(command, Control.parse_options(command, arguments))
             end
 
         end
