@@ -54,6 +54,79 @@ Specific options:
     -I, --interactive                use command line tool interactively
 ```
 
+## Guide
+
+#### Setup your API keys
+Please go to [QingCloud Console](https://console.qingcloud.com/access_keys/) to create a pair of QingCloud API keys.  
+And edit your configure file in "~/.qingcloud/qingcloud.json".
+
+```json
+{
+    "qy_access_key_id": "QINGCLOUDACCESSKEYID",
+    "qy_secret_access_key": "QINGCLOUDSECRETACCESSKEYEXAMPLE"
+}
+```
+
+#### Command Pattern
+
+```bash
+$ qingcloud <action> [options]
+```
+
+#### Command Auto Completion
+
+```bash
+$ qingcloud # press tab now, and you will get hit below.
+describe-instances  run-instances  terminate-instances 
+```
+```bash
+$ qingcloud des # press tab now, and you will get auto completion.
+$ qingcloud describe-instances
+```
+
+### Actions Available Now
+
+* describe-instances
+* run-instances
+* terminate-instances
+
+## Example
+
+```bash
+# Describe Instances
+
+$ qingcloud describe-instances -z ap1
+{
+  "action": "DescribeInstancesResponse",
+  "instance_set": [
+
+  ],
+  "total_count": 0,
+  "ret_code": 0
+}
+
+# Run Instances
+
+$ qingcloud run-instances -m centos7x64b -l keypair -k keypair-id -C 1 -M 1024 -z ap1
+{
+  "action": "RunInstancesResponse",
+  "instances": [
+    "instance-id"
+  ],
+  "job_id": "job-id",
+  "ret_code": 0
+}
+
+# Terminate Instances
+
+$ qingcloud terminate-instances -i instance-id -z ap1
+{
+  "action": "TerminateInstancesResponse",
+  "job_id": "job-id",
+  "ret_code": 0
+}
+
+```
 
 ## Contributing
 
