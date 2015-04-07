@@ -2,17 +2,25 @@
 
 Command line tool for QingCloud
 
-## Usage
-
-TODO
-
 ## Install
 
-TODO
+This tool(gem) is not ready, you can only install it from source code. It'll be published to [RubyGems](https://rubygems.org) when it's ok.
+
+Get Code from Github:
+
+	$ git clone git@github.com:prettyxw/qingcloud-cli-ruby.git
+
+Build and Install with Bundle:
+
+    $ cd qingcloud-cli-ruby
+    $ bundle install
+    $ bundle exec rake install
 
 ## Uninstall
 
-TODO
+	$ gem uninstall qingcloud-cli
+	
+
 
 ## Contributing
 

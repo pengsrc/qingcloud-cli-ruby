@@ -1,1 +1,16 @@
 #!/usr/bin/env ruby
+
+require 'qingcloud/cli'
+
+command_array = QingCloud::Cli::Service::SERVICE_MAP.keys
+command = ARGV[1]
+
+if command && command.length > 0
+	puts command_array.map { |x|
+		if x.start_with? command
+             x
+         end
+	}.compact
+else
+	puts command_array
+end
