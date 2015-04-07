@@ -40,7 +40,7 @@ module QingCloud
                 'terminate-instances' => {
                     description: 'Usage: qingcloud terminate-instances [options]',
                     options: [
-                        { full: 'instances', short: 'i', type: String,  is_array: false, required: true, description:'the IDs of instances you want to terminate' },
+                        { full: 'instances', short: 'i', type: String,  is_array: true, required: true, description:'the IDs of instances you want to terminate' },
                         { full: 'zone',      short: 'z', type: String,  is_array: false, required: true, description:'the ID of zone you want to access' },
                     ]
                 }
