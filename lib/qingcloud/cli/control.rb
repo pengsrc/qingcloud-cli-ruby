@@ -32,12 +32,12 @@ module QingCloud
                     opts.separator ''
                     opts.separator 'Specific options:'
 
-                    opts.on_tail('-h', '--help', 'show help message') do
+                    opts.on('-h', '--help', 'show help message') do
                         puts opts
                         exit
                     end
 
-                    opts.on_tail('-I', '--interactive', 'use command line tool interactively') do
+                    opts.on('-I', '--interactive', 'use command line tool interactively') do
                         puts 'interactively'
                         exit
                     end
